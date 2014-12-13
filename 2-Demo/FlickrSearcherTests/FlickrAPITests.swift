@@ -108,40 +108,5 @@ class FlickrAPITests : BaseTests {
     
     //MARK: - Getting user data
     
-    func testRetrievingUserData() {
-        let expectation = expectationWithDescription("Got user data!")
-        
-        //Test against a known user - in this case, your instructor. 
-        controller.fetchDataForUser("83136939@N00", completion: { (success, result) -> Void in
-            if let unwrappedResult = result {
-                let user = FlickrJSONParser.parseUserDictionary(unwrappedResult)
-                if let unwrappedUser = user {
-
-                    if let userName = unwrappedUser.name {
-                        
-                        XCTAssertEqual(userName, "loudguitars", "User name not parsed correctly!")
-                    } else {
-                        XCTFail("User name not found!")
-                    }
-                    
-                    if let iconURLString = unwrappedUser.iconURLString {
-                        if !self.urlStringBecomesValidURL(iconURLString) {
-                            XCTFail("Icon URL string \(iconURLString) for user \(unwrappedUser.userID) was not a valid URL!")
-                        }
-                    } else {
-                        XCTFail("Icon URL string not found!")
-                    }
-                    
-                } else {
-                    XCTFail("User parsing failed!")
-                }
-            } else {
-                XCTFail("Could not load data for user!")
-            }
-            
-            expectation.fulfill()
-        })
-
-        waitForExpectationsWithTimeout(standardTimeout, handler: nil)
-    }
+    //TODO: Test!
 }

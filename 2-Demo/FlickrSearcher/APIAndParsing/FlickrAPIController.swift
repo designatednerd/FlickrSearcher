@@ -122,18 +122,7 @@ public class FlickrAPIController: NSObject {
     :param: completion The completion block to fire after executing.
     */
     public func fetchDataForUser(userID: String, completion:(success: Bool, result: NSDictionary?) -> Void) {
-        let paramsDict = [
-            FlickrParameterName.Method.rawValue : FlickrMethod.Person.rawValue,
-            FlickrSearchParameterName.UserID.rawValue : userID.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
-        ]
-        
-        makeAPIRequest(HTTPMethod.GET, params: paramsDict) { (responseDict, error) -> Void in
-            if let returnedError = error {
-                self.fireCompletionOnMainQueueWithSuccess(false, result: nil, completion: completion)
-            } else {
-                self.fireCompletionOnMainQueueWithSuccess(true, result: responseDict, completion: completion)
-            }
-        }
+        //TODO: Add!
     }
 }
 
@@ -175,8 +164,7 @@ public class MockAPIController : FlickrAPIController {
     }
     
     public override func fetchDataForUser(userID: String, completion: (success: Bool, result: NSDictionary?) -> Void) {
-        let fileName = "user_" + userID
-        JSONFromFileNamed(fileName, completion: completion)
+        //TODO: Add!
     }
     
     public override func fetchPhotosForTag(tag: String, completion:(success: Bool, result: NSDictionary?) -> Void) {

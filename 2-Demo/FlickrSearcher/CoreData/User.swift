@@ -13,8 +13,8 @@ public class User : NSManagedObject {
     //MARK: Managed Object Properties
     
     @NSManaged public var userID: NSString
-    @NSManaged public var name: NSString?
-    @NSManaged public var iconURLString: NSString?
+    public var name: NSString?
+    public var iconURLString: NSString?
     
     //MARK: Helper method
     
