@@ -199,3 +199,20 @@ In `FlickrAPIController.swift `in `MockAPIController` class towards the bottom:
 	}
 ```
 
+In `FlickrAPITets.swift`, change the controller variable from a `let` to a `var`.
+
+Make a new file, `MockFlickrAPITests.swift`, and set up the mock controller in the the instance setup: 
+
+```swift
+import FlickrSearcher
+
+class MockFlickrAPITests : FlickrAPITests {
+    
+    override func setUp() {
+        super.setUp()
+        
+        //Replace the standard controller with a mock API controller.
+        controller = MockAPIController()
+    }
+}
+```
