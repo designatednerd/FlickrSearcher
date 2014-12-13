@@ -122,7 +122,24 @@ XCTAssertEqual(unwrappedFaves.count, 1, "Unwrapped faves was not 1 object, it wa
 		XCTAssertEqual(firstPhoto.photoID, firstFave.photoID, "Faved photo is not the same!")
 ```
 
-Aw crap everything is horrible. 
+D'oh! There's more than one fave! 
+
+###Resetting the database before every test
+
+In `BaseTests.swift`, 
+
+```swift
+	//MARK: Instance setup/teardown
+
+	override func setUp() {
+		super.setUp()
+		
+		//Nuke the database before every test.
+		CoreDataStack.sharedInstance().resetDatabase()
+	}
+```
+
+
 
 #Using an In-Memory store
 
@@ -149,17 +166,8 @@ Right below where `var url: NSURL? = self.databaseFileURL()`, add the following 
 	}
 ```
 
-
 ```swift
-	//MARK: Instance setup/teardown
-
-	override func setUp() {
-		super.setUp()
-		
-		//Nuke the database before every test.
-		CoreDataStack.sharedInstance().isTesting = true
-		CoreDataStack.sharedInstance().resetDatabase()
-	}
+	CoreDataStack.sharedInstance().isTesting = true
 ```
 
 
