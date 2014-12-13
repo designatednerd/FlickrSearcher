@@ -166,9 +166,22 @@ Right below where `var url: NSURL? = self.databaseFileURL()`, add the following 
 	}
 ```
 
+
+In the `resetDatabase` method, make sure we're not deleting the file when we're testing: 
+
+```swift
+	if !self.isTesting {
+	    //EXISTING CODE
+	} //else we are testing and only want to reset the in-memory store.
+```
+
+
+
 ```swift
 	CoreDataStack.sharedInstance().isTesting = true
 ```
+
+
 
 
 #Mock API Data
