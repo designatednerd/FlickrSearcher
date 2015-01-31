@@ -5,7 +5,9 @@
 
 ###Add a new version of the Core Data Model
 
-Add `name` and `iconURLString` properties.
+[SCREENSHOTS]
+
+Add `name` and `iconURLString` properties to User
 
 ###Update model object
 
@@ -43,24 +45,19 @@ In `User.swift`, update these two variables to be `@NSManaged`
 
 ```
 
-#Add mock API Method too
-
-```swift
-    public override func fetchDataForUser(userID: String, completion: (success: Bool, result: NSDictionary?) -> Void) {
-        let fileName = "user_" + userID
-        JSONFromFileNamed(fileName, completion: completion)
-    }
-```
-
 
 #Test Data Fetching And Parsing Works
 
+In `FlickrAPITests.swift`:
 
 ```swift
  //MARK: - Getting user data
     
     func testRetrievingUserData() {
         let expectation = expectationWithDescription("Got user data!")
+        
+        //TODO: aFIX TO TRAILING CLOSURE
+        
         
         //Test against a known user who won't change their username - in this case, your instructor. 
         controller.fetchDataForUser("83136939@N00", completion: { (success, result) -> Void in
@@ -97,3 +94,6 @@ In `User.swift`, update these two variables to be `@NSManaged`
     }
 
 ```
+
+
+#Parse Icon URL and name

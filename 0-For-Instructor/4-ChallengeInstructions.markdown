@@ -25,6 +25,8 @@ You'll see 3 files with the same name but different extensions in that directory
 
 You'll want to copy all three files. For this particular test, you'll only need the `.sqlite` file, but for other tests in the future you may need to have all three. 
 
+//FIXME: Only one part, rename file
+
 Create a folder under `FlickrSearcherTests` called `OldDatabaseVersions`. Then create a folder within that for each part: `starter_database`, `after_demo_database`, and `after_lab_database`. 
 
 You will need to repeat this step with the Starter Project, the Demo Complete project, and the Lab Complete database. 
