@@ -143,9 +143,9 @@ Next, check that a parsed user from mock data unwraps properly. We’ll use your
 ```swift
 MockAPIController().fetchDataForUser("83136939@N00") {
   (success, result) -> Void in
-  if let unwrappedResult = result {
-    let parsedUser = FlickrJSONParser.parseUserDictionary(unwrappedResult)
-    if let unwrappedUser = parsedUser {
+  if let result = result {
+    let parsedUser = FlickrJSONParser.parseUserDictionary(result)
+    if let parsedUser = parsedUser {
 
       //TODO: Test data was parsed correctly. 
 
@@ -164,13 +164,13 @@ Now, run the test - if the parser is working correctly, you’ll see it pass. Hu
 Finally, since you’re using mock data and you know what to expect if things were parsed correctly, you can check that the exact username and icon URL are returned by the parser. Replace the `TODO` you just added with: 
 
 ```swift
-if let userName = unwrappedUser.name {
+if let userName = parsedUser.name {
   XCTAssertEqual(userName, "loudguitars", "User name not parsed correctly!")
 } else {
   XCTFail("No username found!")
 }
           
-if let urlString = unwrappedUser.iconURLString {
+if let urlString = parsedUser.iconURLString {
   XCTAssertEqual(urlString, "http://farm1.staticflickr.com/48/buddyicons/83136939@N00.jpg", "URL String did not match expected");
 } else {
   XCTFail("No icon URL found!")
@@ -194,9 +194,9 @@ func testRetrievingUserData() {
   let expectation = expectationWithDescription("Got user data!")    
   controller.fetchDataForUser("83136939@N00") {
     (success, result) -> Void in
-    if let unwrappedResult = result {
-      let user = FlickrJSONParser.parseUserDictionary(unwrappedResult)
-        if let unwrappedUser = user {   
+    if let result = result {
+      let user = FlickrJSONParser.parseUserDictionary(result)
+        if let user = user {   
        
           //TODO: Check user data          
 
@@ -215,15 +215,15 @@ func testRetrievingUserData() {
 Since live data can change, you should not test what the user name is - just that it’s there. At the `TODO` you just added, add this line: 
 
 ```swift
-XCTAssertNotNil(unwrappedUser.name, "User name was nil!");
+XCTAssertNotNil(user.name, "User name was nil!");
 ```
 
 Next, check that the icon URL string that is returned is a valid URL. Since you’ve already checked with known data that it’s formatting properly, you just need to make sure that what’s parsed from the live server is valid. To do this, add a small `if-let` nest: 
 
 ```swift          
-if let iconURLString = unwrappedUser.iconURLString {
+if let iconURLString = user.iconURLString {
   if !self.urlStringBecomesValidURL(iconURLString) {
-    XCTFail("Icon URL string \(iconURLString) for user \(unwrappedUser.userID) was not a valid URL!")
+    XCTFail("Icon URL string \(iconURLString) for user \(user.userID) was not a valid URL!")
   }
 } else {
   XCTFail("Icon URL string not found!")
