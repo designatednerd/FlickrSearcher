@@ -36,40 +36,5 @@ class JSONParserTests : BaseTests {
     waitForExpectationsWithTimeout(localTimeout, nil)
   }
   
-  func testParsingUserInfoAgainstJSONFile() {
-    let expectation = expectationWithDescription("Parsed User From File!")
-    
-    //Test against a known user - in this case, the instructor.
-    MockAPIController().fetchDataForUser("83136939@N00") {
-      (success, result) -> Void in
-      if let unwrappedResult = result {
-        let parsedUser = FlickrJSONParser.parseUserDictionary(unwrappedResult)
-        if let unwrappedUser = parsedUser {
-          if let userName = unwrappedUser.name {
-            XCTAssertEqual(userName, "loudguitars", "User name not parsed correctly!")
-          } else {
-            XCTFail("No username found!")
-          }
-          
-          if let urlString = unwrappedUser.iconURLString {
-            if !self.urlStringBecomesValidURL(urlString) {
-              XCTFail("User \(unwrappedUser.userID) returns invalid url \(urlString)")
-            }
-          } else {
-            XCTFail("No icon URL found!")
-          }
-          
-        } else {
-          XCTFail("User Parsing fail!")
-        }
-      } else {
-        XCTFail("No result!")
-      }
-      
-      expectation.fulfill()
-    }
-    
-    waitForExpectationsWithTimeout(localTimeout, nil)
-  }
-  
+  //TODO: Add user parsing test
 }
