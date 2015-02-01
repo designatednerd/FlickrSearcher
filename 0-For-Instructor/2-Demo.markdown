@@ -130,7 +130,7 @@ if !self.isTesting {
   if NSFileManager.defaultManager().fileExistsAtPath(storePath) {
     var error: NSError?
     NSFileManager.defaultManager().removeItemAtPath(storePath, error: &error)
-    if let unwrappedError = error {
+    if let error = error {
       NSLog("Error deleting file: \(error)")
     }
   } //else there was nothing to delete.

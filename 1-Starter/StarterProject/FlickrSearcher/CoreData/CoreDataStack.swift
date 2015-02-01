@@ -86,8 +86,8 @@ public class CoreDataStack {
     var error : NSError?
     mainContext().save(&error)
     
-    if let unwrappedError = error {
-      assert(error != nil, "ERROR SAVING CONTEXT: \(unwrappedError)")
+    if let error = error {
+      assert(error != nil, "ERROR SAVING CONTEXT: \(error)")
     }
   }
   
@@ -113,7 +113,7 @@ public class CoreDataStack {
     if NSFileManager.defaultManager().fileExistsAtPath(storePath) {
       var error: NSError?
       NSFileManager.defaultManager().removeItemAtPath(storePath, error: &error)
-      if let unwrappedError = error {
+      if let error = error {
         NSLog("Error deleting file: \(error)")
       }
     } //else there was nothing to delete.
