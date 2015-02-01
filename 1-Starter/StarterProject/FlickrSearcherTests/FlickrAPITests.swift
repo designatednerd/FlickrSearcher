@@ -25,36 +25,14 @@ class FlickrAPITests : BaseTests {
   
   //MARK: - Sync vs. Async testing
   
-  func testEchoEndpointRespondingSync() {
+  func testEchoEndpointResponding() {
     controller.pingEchoEndpointWithCompletion {
       (success, result) -> Void in
       XCTAssertTrue(success, "Success was not true!")
       XCTAssertNotNil(result, "Result was nil!")
-      
-      /**
-      In theory, this should cause failure. In practice, if you run only this test, it will pass and this line will never get hit. It WILL, however, get hit when running the entire suite since the completion will fire as other tests are running.
-      */
-      
-      //            XCTFail("HIT THIS METHOD!")
     }
     
     NSLog("End of test method body")
-  }
-  
-  func testEchoEndpointRespondingAsync() {
-    let expectation = expectationWithDescription("Finished echo!")
-    controller.pingEchoEndpointWithCompletion {
-      (success, result) -> Void in
-      XCTAssertTrue(success, "Success was not true!")
-      XCTAssertNotNil(result, "Result was nil!")
-      
-      //Aha, NOW we hit this method, and it fails
-      //If you comment it out, the test will pass.
-      //            XCTFail("HIT THIS METHOD!")
-      expectation.fulfill()
-    }
-    
-    waitForExpectationsWithTimeout(standardTimeout, handler: nil)
   }
   
   func testEchoEndpointReturningSuccessAsync() {
