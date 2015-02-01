@@ -53,19 +53,11 @@ In `User.swift`, update the two property variables you just added to the Core Da
 @NSManaged public var iconURLString: NSString?
 ```
 
-##c) Update Your Core Data Model Name
-
-In `CoreDataStack.swift`, update the managed object model name constant so it points to the new version you just added. 
-
-```swift
-public let ManagedObjectModelName = "FlickrSearcher2"
-```
-
-##d) Run Your Core Data Tests
+##c) Run Your Core Data Tests
 
 Select the TestNavigator tab (the little diamond), then select the `CoreDataMigrationTests`, and press the run button to run only those tests. 
 
-If it fails, start looking for where it failed. Other points of failure are similar to those in the lab, but if it fails after making it through all the `if-let` statements, check to make sure you’ve made the changes to the correct version of the Core Data model, and that you’ve updated the `ManagedObjectModelName` property to the correct value. 
+If it fails, start looking for where it failed. Other points of failure are similar to those in the lab, but if it fails after making it through all the `if-let` statements, check to make sure you’ve made the changes to the correct version of the Core Data model.
 
 If you’ve set everything up correctly, your test should pass! Now you’re ready to get data and parse it. 
 
@@ -94,7 +86,7 @@ public func fetchDataForUser(userID: String, completion:FlickrAPICompletion) {
     
   makeAPIRequest(HTTPMethod.GET, params: paramsDict) {
     (responseDict, error) -> Void in
-    if let returnedError = error {
+    if let error = error {
       self.fireCompletionOnMainQueueWithSuccess(false, result: nil, completion: completion)
     } else {
       self.fireCompletionOnMainQueueWithSuccess(true, result: responseDict, completion: completion)
@@ -109,8 +101,7 @@ You will notice that there are a large number of `.json` files under `fake_data/
 
 ```swift
 public override func fetchDataForUser(userID: String, completion: FlickrAPICompletion) {
-  let fileName = "user_" + userID
-  JSONFromFileNamed(fileName, completion: completion)
+  JSONFromFileNamed("user_\(userID)", completion: completion)
 }
 ```
 
@@ -177,7 +168,7 @@ if let urlString = parsedUser.iconURLString {
 }          
 ```
 
-Run the test again, and if it passes, the parser is working properly! :]
+Run the test again, and if it passes, the parser is parsing all the data you want properly! :]
 
 ##b) Test fetching user data from the API
 
@@ -185,7 +176,7 @@ Now that you have known local data parsing correctly, it’s time to see how it 
 
 In `FlickrAPITests.swift`, add a test which grabs data which you know is both live and in the mock data, since this test will be run by both `FlickrAPITests` and its `MockFlickrAPITests` subclass. 
 
-Since you know your instructor’s user ID is in the mock data (and she doesn’t plan on deleting it anytime soon), start with hers:
+Since you know your instructor’s user ID is in the mock data (and she doesn’t plan on deleting it from Flickr anytime soon), start with hers:
 
 ```swift
 //MARK: - Getting user data
@@ -230,13 +221,15 @@ if let iconURLString = user.iconURLString {
 }
 ```
 
+Build and run your entire test package, and this test will be run against both live and mock data. If you've set the tests up properly, all tests should pass. 
+
 #4) Turn On The UI!
 
 Now that you know the underlying data is working, it’s time to turn on the user interface!
 
 Go to `PhotoDataSource.swift`, and uncomment the final line in the `tableView:cellForRowAtIndexPath:` function. Then uncomment the entire “Downloading User Information” section towards the bottom of the file. 
 
-Build and run the application, and you’ll see that user data downloads, and you can now see the usernames and icons of your favorite cat photographers!
+Build and run the application, and you’ll see that user data downloads, and you can now see the usernames and profile icons of your favorite cat photographers!
 
 
 #Notes
