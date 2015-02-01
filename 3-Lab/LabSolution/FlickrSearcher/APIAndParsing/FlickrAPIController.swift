@@ -133,27 +133,7 @@ public class FlickrAPIController: NSObject {
     }
   }
   
-  /**
-  Requests and retrieves a JSON dictionary of information about the given user
-  
-  :param: userID     The user's ID, non percent escaped
-  :param: completion The completion block to fire after executing.
-  */
-  public func fetchDataForUser(userID: String, completion:FlickrAPICompletion) {
-    let paramsDict = [
-      FlickrParameterName.Method.rawValue : FlickrMethod.Person.rawValue,
-      FlickrSearchParameterName.UserID.rawValue : userID.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
-    ]
-    
-    makeAPIRequest(HTTPMethod.GET, params: paramsDict) {
-      (responseDict, error) -> Void in
-      if let returnedError = error {
-        self.fireCompletionOnMainQueueWithSuccess(false, result: nil, completion: completion)
-      } else {
-        self.fireCompletionOnMainQueueWithSuccess(true, result: responseDict, completion: completion)
-      }
-    }
-  }
+  //TODO: Add user data fetch method.
 }
 
 //MARK - Mock API Controller
