@@ -61,7 +61,7 @@ class CoreDataMigrationTests : BaseTests {
     }
   }
   
-  func testPart1DatabaseCanBeOpened() {
-    performAutomaticMigrationTestWithStoreName("part_1_database")
+  func testStarterDatabaseCanBeOpened() {
+    performAutomaticMigrationTestWithStoreName("starter_database")
   }
 }
