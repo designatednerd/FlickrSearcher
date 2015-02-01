@@ -100,7 +100,8 @@ class PhotoDataSource : NSObject, UITableViewDataSource, UITableViewDelegate, NS
       cell.userNameLabel.text = photoAtIndex.owner.userID
       
       //Need some details!
-      addUserIDToDownloadArray(photoAtIndex.owner.userID)
+      //TODO: Uncomment in Challenge!
+//      addUserIDToDownloadArray(photoAtIndex.owner.userID)
     }
     
     if photoAtIndex.isFavorite {
@@ -150,38 +151,40 @@ class PhotoDataSource : NSObject, UITableViewDataSource, UITableViewDelegate, NS
   
   //MARK: - Downloading user information
   
-  func addUserIDToDownloadArray(userID: String) {
-    if !contains(userIDsToDownload, userID) {
-      userIDsToDownload.append(userID)
-    } //else this user is already in the download queue
-    
-    if !loadingUser {
-      loadNextUserIfExists()
-    } //else user will load after current item finishes
-  }
+  //TODO: Uncomment in Challenge!
   
-  func loadNextUserIfExists() {
-    let first = userIDsToDownload.first
-    if let unwrappedFirst = first {
-      userIDsToDownload.removeAtIndex(0)
-      getUserDetails(unwrappedFirst)
-    } //else nothing in the array
-  }
-  
-  func getUserDetails(userID: String) {
-    self.loadingUser = true
-    FlickrAPIController().fetchDataForUser(userID) { [unowned self] (success, result) -> Void in
-      self.loadingUser = false
-      if let unwrappedResult = result {
-        FlickrJSONParser.parseUserDictionary(unwrappedResult)
-        CoreDataStack.sharedInstance().saveMainContext()
-        
-        if let visiblePaths = self.tableView.flk_visibleIndexPaths() {
-          self.tableView.reloadRowsAtIndexPaths(visiblePaths, withRowAnimation: .None)
-        } //else nothing is visible.
-        
-        self.loadNextUserIfExists()
-      } //else did not load.
-    }
-  }
+//  func addUserIDToDownloadArray(userID: String) {
+//    if !contains(userIDsToDownload, userID) {
+//      userIDsToDownload.append(userID)
+//    } //else this user is already in the download queue
+//    
+//    if !loadingUser {
+//      loadNextUserIfExists()
+//    } //else user will load after current item finishes
+//  }
+//  
+//  func loadNextUserIfExists() {
+//    let first = userIDsToDownload.first
+//    if let unwrappedFirst = first {
+//      userIDsToDownload.removeAtIndex(0)
+//      getUserDetails(unwrappedFirst)
+//    } //else nothing in the array
+//  }
+//  
+//  func getUserDetails(userID: String) {
+//    self.loadingUser = true
+//    FlickrAPIController().fetchDataForUser(userID) { [unowned self] (success, result) -> Void in
+//      self.loadingUser = false
+//      if let unwrappedResult = result {
+//        FlickrJSONParser.parseUserDictionary(unwrappedResult)
+//        CoreDataStack.sharedInstance().saveMainContext()
+//        
+//        if let visiblePaths = self.tableView.flk_visibleIndexPaths() {
+//          self.tableView.reloadRowsAtIndexPaths(visiblePaths, withRowAnimation: .None)
+//        } //else nothing is visible.
+//        
+//        self.loadNextUserIfExists()
+//      } //else did not load.
+//    }
+//  }
 }

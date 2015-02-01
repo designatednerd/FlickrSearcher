@@ -15,7 +15,6 @@ A file to store various String and Enum constants related to the Flickr API
 //Request your own API keys here after logging in to Flickr: https://www.flickr.com/services/apps/create/apply/?
 public enum FlickrAuthCredential : String {
   case APIKey = "262cabe358a00f6f9977965c287249c3"
-  case APISecret = "880c7e2b2c9ba658"
 }
 
 //Names of parameters to be used in URL construction

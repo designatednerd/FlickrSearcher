@@ -173,10 +173,7 @@ public class MockAPIController : FlickrAPIController {
     completion(success: false, result: nil)
   }
   
-  public override func fetchDataForUser(userID: String, completion: FlickrAPICompletion) {
-    let fileName = "user_" + userID
-    JSONFromFileNamed(fileName, completion: completion)
-  }
+  //TODO: Add mock fetch for user data.
   
   public override func fetchPhotosForTag(tag: String, completion:FlickrAPICompletion) {
     let fileName = "test_" + tag
