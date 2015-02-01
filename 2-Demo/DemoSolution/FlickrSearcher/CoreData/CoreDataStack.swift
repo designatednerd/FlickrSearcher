@@ -61,9 +61,7 @@ public class CoreDataStack {
         storeType = NSInMemoryStoreType
         url = nil
       }
-      
-      NSLog("Persistent store file path: \(url?.path)")
-      
+            
       _persistentStoreCoordinator!.addPersistentStoreWithType(storeType,
         configuration: nil,
         URL: url,

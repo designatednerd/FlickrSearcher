@@ -237,3 +237,8 @@ Now that you know the underlying data is working, it’s time to turn on the use
 Go to `PhotoDataSource.swift`, and uncomment the final line in the `tableView:cellForRowAtIndexPath:` function. Then uncomment the entire “Downloading User Information” section towards the bottom of the file. 
 
 Build and run the application, and you’ll see that user data downloads, and you can now see the usernames and icons of your favorite cat photographers!
+
+
+#Notes
+
+If you were using this in a real application, when you release this version of the application, you would create a new test database file which you would indicate is a newer version than `starter_database` - that will help you catch any changes to your core data schema will break things not just in the starter version, but in this new version as well. 
