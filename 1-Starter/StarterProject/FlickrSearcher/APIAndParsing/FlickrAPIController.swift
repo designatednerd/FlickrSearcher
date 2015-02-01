@@ -176,7 +176,7 @@ public class MockAPIController : FlickrAPIController {
   //TODO: Add mock fetch for user data.
   
   public override func fetchPhotosForTag(tag: String, completion:FlickrAPICompletion) {
-    //TODO: Add fetching of mock photos
+    JSONFromFileNamed("test_\(tag)" , completion: completion)
   }
   
   public override func pingEchoEndpointWithCompletion(completion: FlickrAPICompletion) {

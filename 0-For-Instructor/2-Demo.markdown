@@ -151,14 +151,9 @@ Open `FlickrAPIController.swift` and notice that there’s a `MockAPIController`
 
 Instead of going out to the internet to get data, you want it get known data from JSON files stored locally on the system. This has the advantage of looking to your code like it’s getting live data, but having the data you’re actually processing be known.
 
-Scroll to the two functions with `//TODOs` within `MockAPIController`, and replace the code with code which fetches the JSON from the appropriate file: 
+Scroll to the echo function with a `//TODO` within `MockAPIController`, and replace the `TODO` line with code which fetches the JSON from the appropriate file: 
 
 ```swift
-public override func fetchPhotosForTag(tag: String, completion:(success: Bool, result: NSDictionary?) -> Void) {
-  let fileName = "test_" + tag
-  JSONFromFileNamed(fileName, completion: completion)
-}
-	
 public override func pingEchoEndpointWithCompletion(completion: (success: Bool, result: NSDictionary?) -> Void) {
   JSONFromFileNamed("echo", completion: completion)
 }
