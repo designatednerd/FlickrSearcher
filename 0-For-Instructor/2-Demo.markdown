@@ -1,28 +1,27 @@
-#XCTest In Practice, Part 2: Demo
+XCTest In Practice, Part 2: Demo
+=====
 
-#A Note On Resetting XCTest
+#1) Open Up And Run The FlickrSearcher Project 
 
-One thing you will know if you've tried to do swift Unit testing previously: You will often not be able to see the little diamonds that allow you to run individual tests. 
+Open up the project, and hit build and run. The application goes out to Flickr, and grabs photos tagged with "cats", and displays thumbnails and a few details about them in a UITableView. 
 
-The most repeatable steps I've found to fix this are: 
+Select an individual photo, tap the heart, and when it turns red you've marked that photo as a favorite. When you go back to the table view, you can see that reflected in the cell for that photo with a heart. 
 
-1. Open the project you want to test. 
-2. Open the Organizer, and select the project in the organizer.
-3. Close the window of the project you want to test. 
-4. After the window has closed, delete the derived data folder of the project you want to test. 
-5. Re-open the project you want to test, and build it. 
+Tap the favorites button in the upper right hand corner, and you can see that there's a bigger view of the favorited item before you go to the detail. 
 
-**Usually**, this will lead to the individual test diamonds being regenerated. This is not a 100% consistent process, and will often require a restart of Xcode or in the very worst cases, a full reboot of your machine. 
+#) Learn Where The Tests Are, And How To Run Them
 
-If anyone's got better suggestions on how to make this process less horrendous, I'd love to hear them. 
+Tests all live in a separate bundle from the main application. This is particularly critical in Swift because it means that any method you want to test will need to be `public` so that it can be seen outside your application’s bundle.
 
-#Quick Review: Basic Unit Testing
+To get to the tests through the file navigator, you can open up the 
 
-Go to `FlickrAPITests.swift` in the test bundle, and run the `testAPIKeyExists` test. This test should fail at first. 
+#) Quick Review: Basic Unit Testing
 
-Go to `FlickrAPIConstants.swift`, and under the `FlickrAuthCredential` enum, change `APIKey` from `FIXME` to the API key your instructuor has provided. 
+Go to `FlickrAPITests.swift` in the test bundle, and run the `testAPIKeyExists` test. This test will fail at first. 
 
-#Async Testing
+Go to `FlickrAPIConstants.swift`, and under the `FlickrAuthCredential` enum, change `APIKey` from `FIXME` to `262cabe358a00f6f9977965c287249c3`. 
+
+#) Async Testing
 
 In `FlickrAPITests.swift`, you can run `testEchoEndpointRespondingSync` - and you'll notice that despite the fact that it has an explicit failure in it, the test passes!
 
@@ -59,12 +58,10 @@ Now, if you run this test, it will fail as soon as the closure executes, as you 
 
 #Writing Practical Tests
 
-There is a photo-favoriting mechanism already built into this applicaiton, but you know that you're going to have to eventually rewrite it. You decide to add a test to make sure it works, so that when you rewrite it, it still works. 
-
-To do that, drill on into the `if let` syntax. With
+There is a photo-favoriting mechanism already built into this application, but it’s not tested. You want to answer a number of questions here, and to do it you’re going to drill into the `if let` syntax.
 
 
-#)Can You Fetch Stuff From Core Data? 
+#a)Can You Fetch Stuff From Core Data? 
 
 ```swift
 	func testFavoritingTheFirstItemRetrievedFromCoreDataWorks() {
@@ -117,7 +114,7 @@ let firstPhoto = unwrappedAll.first!
 
 
 ```swift
-XCTAssertEqual(unwrappedFaves.count, 1, "Unwrapped faves was not 1 object, it was \(unwrappedFaves.count)")
+XCTAssertEqual(unwrappedFaves.count, 1, "\(unwrappedFaves.count) Unwrapped faves!")
 		let firstFave = unwrappedFaves.first!
 		XCTAssertEqual(firstPhoto.photoID, firstFave.photoID, "Faved photo is not the same!")
 ```
@@ -142,7 +139,6 @@ In `BaseTests.swift`,
 
 
 #Using an In-Memory store
-
 
 Set up ability to use in memory store
 
@@ -184,9 +180,13 @@ In the `resetDatabase` method, make sure we're not deleting the file when we're 
 
 
 
-#Mock API Data
+#)Mock API Data
 
-In `FlickrAPIController.swift `in `MockAPIController` class towards the bottom: 
+Open `FlickrAPIController.swift` and notice that there’s a `MockAPIController` class towards the bottom. This class is set up to have exactly the same interface as the real Flickr API Controller, but you want it to work differently under the hood. 
+
+Instead of going out to the internet to get data, you want it get known data from JSON files stored locally on the system. This has the advantage of looking to your code like it’s getting live data, but having the data you’re actually processing be known.
+
+Scroll to the two `//TODOs` within `MockAPIController`, and replace the code with code which fetches the JSON from the appropriate file: 
 
 ```swift
 	public override func fetchPhotosForTag(tag: String, completion:(success: Bool, result: NSDictionary?) -> Void) {
@@ -197,11 +197,12 @@ In `FlickrAPIController.swift `in `MockAPIController` class towards the bottom:
 	public override func pingEchoEndpointWithCompletion(completion: (success: Bool, result: NSDictionary?) -> Void) {
 		JSONFromFileNamed("echo", completion: completion)
 	}
-```
+``` 
 
-In `FlickrAPITets.swift`, change the controller variable from a `let` to a `var`.
+Now that you’ve updated the mock class, add some tests for the mock data: 
 
-Make a new file, `MockFlickrAPITests.swift`, and set up the mock controller in the the instance setup: 
+ - Open `FlickrAPITets.swift`, change the controller variable from a `let` to a `var`.
+ - Make a new file, `MockFlickrAPITests.swift`, and set up the mock controller in the the instance setup: 
 
 ```swift
 import FlickrSearcher
@@ -216,3 +217,7 @@ class MockFlickrAPITests : FlickrAPITests {
     }
 }
 ```
+
+- Build and run your tests again, and you will see that even though you’ve only added one additional setup method, the entire suite of tests will run twice - once with live data, and once with mock data. 
+
+Since your data is known, you can now 
