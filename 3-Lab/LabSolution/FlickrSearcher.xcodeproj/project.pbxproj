@@ -33,9 +33,9 @@
 		9B9227821A16CD5D00B2C5FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9227811A16CD5D00B2C5FC /* AppDelegate.swift */; };
 		9B92278A1A16CD5D00B2C5FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B9227881A16CD5D00B2C5FC /* Main.storyboard */; };
 		9B92279B1A16CD5E00B2C5FC /* FlickrAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B92279A1A16CD5E00B2C5FC /* FlickrAPITests.swift */; };
-		9B937EC91A7DEF8000CC1A9E /* starter_database.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 9B937EC61A7DEF8000CC1A9E /* starter_database.sqlite */; };
-		9B937ECA1A7DEF8000CC1A9E /* starter_database.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 9B937EC71A7DEF8000CC1A9E /* starter_database.sqlite-shm */; };
-		9B937ECB1A7DEF8000CC1A9E /* starter_database.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = 9B937EC81A7DEF8000CC1A9E /* starter_database.sqlite-wal */; };
+		9B937ED11A7DF10700CC1A9E /* starter_database.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 9B937ECE1A7DF10700CC1A9E /* starter_database.sqlite */; };
+		9B937ED21A7DF10700CC1A9E /* starter_database.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 9B937ECF1A7DF10700CC1A9E /* starter_database.sqlite-shm */; };
+		9B937ED31A7DF10700CC1A9E /* starter_database.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = 9B937ED01A7DF10700CC1A9E /* starter_database.sqlite-wal */; };
 		9B97DD451A2C4C0A00E1216A /* BaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B97DD441A2C4C0A00E1216A /* BaseTests.swift */; };
 		9B97DD471A2C538D00E1216A /* echo.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B97DD461A2C538D00E1216A /* echo.json */; };
 		9BB26B401A36BBAF008DD4EF /* user_83136939@N00.json in Resources */ = {isa = PBXBuildFile; fileRef = 9BB26B3F1A36BBAF008DD4EF /* user_83136939@N00.json */; };
@@ -352,9 +352,9 @@
 		9B9227941A16CD5E00B2C5FC /* FlickrSearcherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlickrSearcherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B9227991A16CD5E00B2C5FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B92279A1A16CD5E00B2C5FC /* FlickrAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrAPITests.swift; sourceTree = "<group>"; };
-		9B937EC61A7DEF8000CC1A9E /* starter_database.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = starter_database.sqlite; sourceTree = "<group>"; };
-		9B937EC71A7DEF8000CC1A9E /* starter_database.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "starter_database.sqlite-shm"; sourceTree = "<group>"; };
-		9B937EC81A7DEF8000CC1A9E /* starter_database.sqlite-wal */ = {isa = PBXFileReference; lastKnownFileType = file; path = "starter_database.sqlite-wal"; sourceTree = "<group>"; };
+		9B937ECE1A7DF10700CC1A9E /* starter_database.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = starter_database.sqlite; sourceTree = "<group>"; };
+		9B937ECF1A7DF10700CC1A9E /* starter_database.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "starter_database.sqlite-shm"; sourceTree = "<group>"; };
+		9B937ED01A7DF10700CC1A9E /* starter_database.sqlite-wal */ = {isa = PBXFileReference; lastKnownFileType = file; path = "starter_database.sqlite-wal"; sourceTree = "<group>"; };
 		9B97DD441A2C4C0A00E1216A /* BaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTests.swift; sourceTree = "<group>"; };
 		9B97DD461A2C538D00E1216A /* echo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = echo.json; sourceTree = "<group>"; };
 		9BB26B3F1A36BBAF008DD4EF /* user_83136939@N00.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "user_83136939@N00.json"; sourceTree = "<group>"; };
@@ -744,7 +744,7 @@
 		9B9227971A16CD5E00B2C5FC /* FlickrSearcherTests */ = {
 			isa = PBXGroup;
 			children = (
-				9B937EC51A7DEF8000CC1A9E /* starter_database */,
+				9B937ECC1A7DF10700CC1A9E /* old_datbase_files */,
 				9B97DD441A2C4C0A00E1216A /* BaseTests.swift */,
 				9B1A17A61A2BB2650082BC42 /* CoreMigrationDataTests.swift */,
 				9B92279A1A16CD5E00B2C5FC /* FlickrAPITests.swift */,
@@ -764,15 +764,22 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		9B937EC51A7DEF8000CC1A9E /* starter_database */ = {
+		9B937ECC1A7DF10700CC1A9E /* old_datbase_files */ = {
 			isa = PBXGroup;
 			children = (
-				9B937EC61A7DEF8000CC1A9E /* starter_database.sqlite */,
-				9B937EC71A7DEF8000CC1A9E /* starter_database.sqlite-shm */,
-				9B937EC81A7DEF8000CC1A9E /* starter_database.sqlite-wal */,
+				9B937ECD1A7DF10700CC1A9E /* starter_database */,
 			);
-			name = starter_database;
-			path = "../../../2-Demo/DemoSolution/FlickrSearcherTests/old_datbase_files/starter_database";
+			path = old_datbase_files;
+			sourceTree = "<group>";
+		};
+		9B937ECD1A7DF10700CC1A9E /* starter_database */ = {
+			isa = PBXGroup;
+			children = (
+				9B937ECE1A7DF10700CC1A9E /* starter_database.sqlite */,
+				9B937ECF1A7DF10700CC1A9E /* starter_database.sqlite-shm */,
+				9B937ED01A7DF10700CC1A9E /* starter_database.sqlite-wal */,
+			);
+			path = starter_database;
 			sourceTree = "<group>";
 		};
 		9BDEBCAE1A389D9700974F36 /* user_json */ = {
@@ -1416,9 +1423,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B937ECB1A7DEF8000CC1A9E /* starter_database.sqlite-wal in Resources */,
-				9B937EC91A7DEF8000CC1A9E /* starter_database.sqlite in Resources */,
-				9B937ECA1A7DEF8000CC1A9E /* starter_database.sqlite-shm in Resources */,
+				9B937ED11A7DF10700CC1A9E /* starter_database.sqlite in Resources */,
+				9B937ED31A7DF10700CC1A9E /* starter_database.sqlite-wal in Resources */,
+				9B937ED21A7DF10700CC1A9E /* starter_database.sqlite-shm in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
