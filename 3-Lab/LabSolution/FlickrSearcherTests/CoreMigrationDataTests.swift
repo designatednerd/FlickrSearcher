@@ -29,15 +29,15 @@ class CoreDataMigrationTests : BaseTests {
     //Grab the SQLite file that is in the test bundle with this class
     let bundle = NSBundle(forClass:self.dynamicType)
     let storeURL = bundle.URLForResource(name, withExtension:"sqlite")
-    if let unwrappedStoreURL = storeURL {
+    if let storeURL = storeURL {
       
       //Grab the core data model from the main bundle
       let modelURL = NSBundle.mainBundle().URLForResource(ManagedObjectModelName, withExtension:ManagedObjectModelExtension)
-      if let unwrappedModelURL = modelURL {
-        let managedObjectModel = NSManagedObjectModel(contentsOfURL: unwrappedModelURL)
-        if let unwrappedModel = managedObjectModel {
+      if let modelURL = modelURL {
+        let managedObjectModel = NSManagedObjectModel(contentsOfURL: modelURL)
+        if let managedObjectModel = managedObjectModel {
           //Create a persistent store coordinator and persistent store independent of our main stack.
-          let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: unwrappedModel)
+          let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
           let options = [
             NSMigratePersistentStoresAutomaticallyOption : true,
             NSInferMappingModelAutomaticallyOption : true,
