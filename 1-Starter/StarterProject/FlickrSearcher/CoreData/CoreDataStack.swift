@@ -19,9 +19,6 @@ Class for managing access to Core Data.
 */
 public class CoreDataStack {
   
-  //Public variables
-  public var isTesting = false
-  
   //Singleton instance.
   public class func sharedInstance() -> CoreDataStack {
     return _singletonInstance
@@ -56,11 +53,6 @@ public class CoreDataStack {
       _persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.model())
       var storeType = NSSQLiteStoreType
       var url : NSURL? = self.databaseFileURL()
-      if (self.isTesting) {
-        //If we are testing, add the in-memory store type and do not use any URL.
-        storeType = NSInMemoryStoreType
-        url = nil
-      }
             
       _persistentStoreCoordinator!.addPersistentStoreWithType(storeType,
         configuration: nil,

@@ -15,7 +15,7 @@ import FlickrSearcher
 
 class FlickrAPITests : BaseTests {
   
-  var controller: FlickrAPIController = FlickrAPIController()
+  let controller: FlickrAPIController = FlickrAPIController()
   
   //MARK: - Make sure you have signed up for Flickr Creds
   

@@ -26,9 +26,7 @@ class BaseTests : XCTestCase {
   override func setUp() {
     super.setUp()
     
-    //Nuke the database before every test.
-    CoreDataStack.sharedInstance().isTesting = true
-    CoreDataStack.sharedInstance().resetDatabase()
+    //TODO: Add code here.
   }
   
   /**
