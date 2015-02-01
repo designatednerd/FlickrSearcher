@@ -106,6 +106,39 @@ public class FlickrJSONParser {
     return photo
   }
   
-  //TODO: Add a method which allows you to parse user JSON. 
-
+  /**
+  Parses a given dictionary into a User object.
+  
+  :param: userDict The dictionary to parse.
+  :returns: The instantiated and populated user, inserted into the main context but not yet saved.
+  */
+  public class func parseUserDictionary(userDict: NSDictionary) -> User? {
+    if !isResponseOK(userDict) {
+      return nil
+    }
+    
+    let personDict = userDict[FlickrUserDataJSONKeys.Person.rawValue]! as NSDictionary
+    let usernameDict = personDict[FlickrUserDataJSONKeys.Username.rawValue]! as NSDictionary
+    let username = usernameDict[FlickrReturnDataJSONKeys.InnerContent.rawValue]! as String
+    let iconFarm = personDict[FlickrUserDataJSONKeys.IconFarm.rawValue]! as Int
+    let iconServer: AnyObject = personDict[FlickrUserDataJSONKeys.IconServer.rawValue]!
+    let userID = personDict[FlickrUserDataJSONKeys.ID.rawValue]! as String
+    let NSID = personDict[FlickrUserDataJSONKeys.NSID.rawValue]! as String
+    
+    //http://farm{icon-farm}.staticflickr.com/{icon-server}/buddyicons/{nsid}.jpg
+    
+    var iconURLString: String
+    if iconFarm > 0 {
+      iconURLString = "http://farm\(iconFarm).staticflickr.com/\(iconServer)/buddyicons/\(NSID).jpg"
+    } else {
+      //Use the default icon per Flickr guidelines here: https://www.flickr.com/services/api/misc.buddyicons.html
+      iconURLString = "https://www.flickr.com/images/buddyicon.gif"
+    }
+    
+    let user = User.userInContextOrNew(CoreDataStack.sharedInstance().mainContext(), userID: userID)
+    user.name = username
+    user.iconURLString = iconURLString
+    
+    return user
+  }
 }
