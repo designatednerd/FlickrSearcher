@@ -18,13 +18,15 @@ Note that these copies should be grabbed from the simulator, not a device, since
 
 First, you need to figure out where the file is being stored. There’s a convenience method to do this on the `CoreDataStack` class called `databaseFileURL()`. 
 
-You want to log this out somewhere it will definitely get hit. Since the `coordinator()` method uses the `databaseFileURL()` method, this is an ideal place to log out the file URL. Add the following line right above where you’re adding the persistent store to the persistent store coordinator:  
+You want to log this out somewhere it will definitely get hit. Since the `CoreDataStack`’s `coordinator()` method uses the `databaseFileURL()` method, this is an ideal place to log out the file URL. 
+
+Add the following line right above where you’re adding the persistent store to the persistent store coordinator:  
 
 ```swift
 NSLog("Persistent store file path: \(url?.path)")
 ```
 
-This will log out the full file path on the simulator: 
+Build and run the application, and this line will log out the full file path on the simulator: 
 
 ![](lab_images/log_of_path.png)
 
@@ -44,7 +46,7 @@ Create a folder under `FlickrSearcherTests` called `old_database_versions`. Then
 
 Rename all three files so that instead of `FlickrSearcher.sqlite` etc, they are named `starter_database.sqlite`, `starter_database.sqlite-shm`, and `starter_database.sqlite-wal`. Renaming the files for each version ensures that no version ever accidentally overwrites another version when you’re compiling your targets.
 
-Once all these files have been gathered, drag the folder into Xcode - make sure that the files are added to the test target, **not** the main target:
+Once all these files have been gathered, drag the entire `old_database_files` folder into Xcode - make sure that the files are added to the test target, **not** the main target:
 
 ![](lab_images/add_to_test_target.png)
 
@@ -81,7 +83,7 @@ func performAutomaticMigrationTestWithStoreName(name: String) {
   //Grab the SQLite file that is in the test bundle with this class
   let bundle = NSBundle(forClass:self.dynamicType)
   let storeURL = bundle.URLForResource(name, withExtension:"sqlite")
-  if let unwrappedStoreURL = storeURL {
+  if let storeURL = storeURL {
 
     //TODO: More Code!            
 
@@ -105,9 +107,9 @@ Next, look for the current Managed Object Model in the main bundle, and load it 
 
 ```swift
 let modelURL = NSBundle.mainBundle().URLForResource(ManagedObjectModelName, withExtension:ManagedObjectModelExtension)
-if let unwrappedModelURL = modelURL {
-  let managedObjectModel = NSManagedObjectModel(contentsOfURL: unwrappedModelURL)
-  if let unwrappedModel = managedObjectModel {
+if let modelURL = modelURL {
+  let managedObjectModel = NSManagedObjectModel(contentsOfURL: modelURL)
+  if let managedObjectModel = managedObjectModel {
 
     //TODO: Do tests with the model. 
 
@@ -126,7 +128,7 @@ You’ve confirmed you have the stored `.sqlite` file and are accessing the stor
 Create an `NSPersistentStoreCoordinator` and persistent store independent of the main stack, and try to open the store using the standard automatic migration options. Replace the `TODO` you just added with the following: 
 
 ```swift
-let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: unwrappedModel)
+let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
 let options = [
   NSMigratePersistentStoresAutomaticallyOption : true,
   NSInferMappingModelAutomaticallyOption : true,
