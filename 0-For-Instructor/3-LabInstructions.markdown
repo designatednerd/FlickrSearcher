@@ -1,9 +1,10 @@
 #XCTest In Practice, Part 3: Lab
 
-One of the most frustrating things
+One of the most frustrating things that can happen as a developer is when you make a change that causes your app to crash on launch. One of the easiest ways to do this is to make a change to your Core Data schema without properly versioning it. 
 
-This will test if the application can properly complete automatic migration of the  CoreData store - if that store is not properly migrated, the app will crash on launch.
+It’s easy to miss because you’re constantly deleting and reinstalling your application from the simulator, so schema changes won’t always register completely. 
 
+For the lab, you will test if this application can properly complete automatic migration of the  CoreData store, so that it does not crash on launch. 
 
 #Lab: Test automatic migrations from old versions of the database
 
@@ -19,24 +20,25 @@ Once you have that full file url, open up Finder, and select `Go > Go To Folder.
 
 You'll see 3 files with the same name but different extensions in that directory: 
 
-- `FlickrSearcher.shm` - //TODO
 - `FlickrSearcher.sqlite` - The main database file. This is what you'll use for migration tests.
-- `FlickrSearcher.wal`- The write-ahead log, which //TODO
+- `FlickrSearcher.sqlite-wal`- The [write-ahead log](https://www.sqlite.org/wal.html), which allows easier rollback of database transactions
+- `FlickrSearcher.sqlite-shm` - The shared memory file, which facilitates sharing memory between the main database and the write-ahead log. 
 
-You'll want to copy all three files. For this particular test, you'll only need the `.sqlite` file, but for other tests in the future you may need to have all three. 
+You'll want to copy all three files. For this particular test, you'll only need the `.sqlite` file, but for other tests in the future which involve migrating actual data, you may need to have all three files. 
 
-//FIXME: Only one part, rename file
+Create a folder under `FlickrSearcherTests` called `OldDatabaseVersions`. Then create a folder within that called `starter_database`. Paste the `.sqlite`, `.sqlite-shm`, and `.sqlite-wal` files into this folder. Rename all three files so that instead of `FlickrSearcher.sqlite` etc, they are named `starter_database.sqlite`, `starter_database.sqlite-shm`, and `starter_database.sqlite-wal`. 
 
-Create a folder under `FlickrSearcherTests` called `OldDatabaseVersions`. Then create a folder within that for each part: `starter_database`, `after_demo_database`, and `after_lab_database`. 
+When you’re finished, your files should look like this: 
+
+
 
 You will need to repeat this step with the Starter Project, the Demo Complete project, and the Lab Complete database. 
 
 Once all these files have been gathered, drag the folder into Xcode - make sure that the files are added to the test target, **not** the main target. 
 
-
 #2) Create a common testing method
 
-Start with a new class to keep logic seperate - Name your class `CoreDataMigrationTests`. It should inherit from `BaseTests`. 
+Start with a new class to keep logic separate - Name your class `CoreDataMigrationTests`. It should inherit from `BaseTests`. 
 
 Since you will want to test multiple versions of the database, create a common method to test based on the file name. 
 
@@ -44,17 +46,18 @@ First, you'll want to make sure that your test can find the file you're looking 
 
 
 ```swift
+func performAutomaticMigrationTestWithStoreName(name: String) {
+  //Grab the SQLite file that is in the test bundle with this class
+  let bundle = NSBundle(forClass:self.dynamicType)
+  let storeURL = bundle.URLForResource(name, withExtension:"sqlite")
+  if let unwrappedStoreURL = storeURL {
 
-    func performAutomaticMigrationTestWithStoreName(name: String) {
-        //Grab the SQLite file that is in the test bundle with this class
-        let bundle = NSBundle(forClass:self.dynamicType)
-        let storeURL = bundle.URLForResource(name, withExtension:"sqlite")
-        if let unwrappedStoreURL = storeURL {
-			//TODO: More Code!            
-        } else {
-            XCTFail("Cannot find \(name).sqlite")
-        }
-    }
+    //TODO: More Code!            
+
+  } else {
+    XCTFail("Cannot find \(name).sqlite")
+  }
+}
 ```
 
 Next, look for the current Managed Object Model in the main bundle, and load it up (note: These constants are defined in `CoreDataStack.swift`): 
@@ -108,4 +111,4 @@ Add random field, run again. Fail!
 
 This technique is inspired by Oliver Drobnik's post on [testing core data migrations](http://www.cocoanetics.com/2013/01/unit-testing-coredata-migrations/) in Objective-C. 
 
-Remember: This is only testing if the database can be opened without the app crashing. It will NOT test if any content which needs to be migrated has been migrated properly. Seperate tests should be written for that case. 
+Remember: This is only testing if the database can be opened without the app crashing. It will **NOT** test if any content which needs to be migrated has been migrated properly. Seperate tests should be written for that case. 
