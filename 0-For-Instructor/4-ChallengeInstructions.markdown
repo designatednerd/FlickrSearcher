@@ -1,25 +1,35 @@
-#XCTest In Practice, Part 3: Lab
+#XCTest In Practice, Part 4: Challenge
 
-#Add information about users to core data model
+For the challenge, you’ll add information about which user took each cat photo in the list of photos you’re pulling down. You’ll start by adding the skeleton of information about what you want to the Core Data model, test that it migrates properly. Then, you’ll get data from the Live Flickr API - and test it against both Live and Mock datasets. 
 
+#1) Add information about users to core data model
 
-###Add a new version of the Core Data Model
+In order to save the data, you need to make sure that Core Data knows how to persist it. However, since you already have an existing version of your application, you want to make sure that people installing the new version will still have it work despite the model change. 
+
+You can use the code that you added 
+
+##a) Add A New Version of the Core Data Model
 
 [SCREENSHOTS]
 
 Add `name` and `iconURLString` properties to User
 
-###Update model object
+##b) Update the `User` Model Object
 
-In `User.swift`, update these two variables to be `@NSManaged`
+In `User.swift`, update these two property variables to be `@NSManaged` instead of just `public`: 
 
 ```swift
     @NSManaged public var name: NSString?
     @NSManaged public var iconURLString: NSString?
 ```
 
+##c) Run Your Core Data Tests
 
-#Get from API
+
+
+#2) Get User Data From the Flickr API
+
+##a) Create a method to fetch and 
 
 ```swift
 /**
