@@ -117,13 +117,15 @@ public class CoreDataStack {
     _managedObjectModel = nil
     _persistentStoreCoordinator = nil
     
-    let storePath = databaseFileURL().path!
-    if NSFileManager.defaultManager().fileExistsAtPath(storePath) {
-      var error: NSError?
-      NSFileManager.defaultManager().removeItemAtPath(storePath, error: &error)
-      if let error = error {
-        NSLog("Error deleting file: \(error)")
-      }
-    } //else there was nothing to delete.
+    if !isTesting {
+      let storePath = databaseFileURL().path!
+      if NSFileManager.defaultManager().fileExistsAtPath(storePath) {
+        var error: NSError?
+        NSFileManager.defaultManager().removeItemAtPath(storePath, error: &error)
+        if let error = error {
+          NSLog("Error deleting file: \(error)")
+        }
+      } //else there was nothing to delete.
+    }
   }
 }
