@@ -12,9 +12,9 @@ public class User : NSManagedObject {
   
   //MARK: Managed Object Properties
   
-  @NSManaged public var userID: NSString
-  public var name: NSString?
-  public var iconURLString: NSString?
+  @NSManaged public var userID: String
+  @NSManaged public var name: String?
+  public var iconURLString: String?
   
   //MARK: Helper method
   
@@ -42,7 +42,7 @@ public class User : NSManagedObject {
     }
     
     //None found, create new
-    let created = flk_newInContext(context) as User
+    let created = flk_newInContext(context) as! User
     created.userID = userID
     return created
   }

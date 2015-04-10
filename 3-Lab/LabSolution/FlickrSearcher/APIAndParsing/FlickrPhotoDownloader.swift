@@ -77,7 +77,7 @@ public class FlickrPhotoDownloader {
   :param: imageView - The image view to cancel setting images on.
   */
   func cancelSetToImageView(imageView: UIImageView) {
-    let imageViewOperations = downloadQueue.operations as [FlickrDownloadOperation]
+    let imageViewOperations = downloadQueue.operations as! [FlickrDownloadOperation]
     for operation in imageViewOperations {
       if operation.imageView == imageView {
         operation.imageView = nil

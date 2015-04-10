@@ -32,8 +32,8 @@ class ViewController: UIViewController {
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
     if (segue.identifier == "ShowDetail") {
       // pass data to next view
-      let tappedCell = sender as PhotoTableViewCell
-      let detail = segue.destinationViewController as PhotoDetailViewController
+      let tappedCell = sender as! PhotoTableViewCell
+      let detail = segue.destinationViewController as! PhotoDetailViewController
       detail.photo = dataSource.photoForCell(tappedCell)
     }
   }

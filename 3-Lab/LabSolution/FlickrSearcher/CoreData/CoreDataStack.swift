@@ -105,7 +105,7 @@ public class CoreDataStack {
   :returns: The full file url for the database
   */
   func databaseFileURL() -> NSURL {
-    let documentsDirectory = NSFileManager.defaultManager().URLsForDirectory(NSSearchPathDirectory.DocumentDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask).last! as NSURL
+    let documentsDirectory = NSFileManager.defaultManager().URLsForDirectory(NSSearchPathDirectory.DocumentDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask).last! as! NSURL
     
     let file = documentsDirectory.URLByAppendingPathComponent("FlickrSearcher.sqlite")
     return file

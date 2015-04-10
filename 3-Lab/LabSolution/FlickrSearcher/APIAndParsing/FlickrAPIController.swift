@@ -66,7 +66,7 @@ public class FlickrAPIController: NSObject {
             } else {
               //Parse the data into a dictionary.
               var jsonError: NSError?
-              let dict = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &jsonError) as NSDictionary
+              let dict = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &jsonError) as! NSDictionary
               completion(responseDict:dict, error: nil)
             }
           }).resume() //Don't forget to call Resume.

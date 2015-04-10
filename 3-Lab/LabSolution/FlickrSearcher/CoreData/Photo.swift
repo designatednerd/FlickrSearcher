@@ -12,10 +12,10 @@ public class Photo : NSManagedObject {
   
   //MARK: Managed Object Properties
   
-  @NSManaged public var fullURLString: NSString
-  @NSManaged public var thumbnailURLString: NSString
-  @NSManaged public var photoID: NSString
-  @NSManaged public var title: NSString
+  @NSManaged public var fullURLString: String
+  @NSManaged public var thumbnailURLString: String
+  @NSManaged public var photoID: String
+  @NSManaged public var title: String
   @NSManaged public var owner: User
   
   //ATTENTION NON-AMERICANS: Be consistent about your spelling of "favorite" vs. "favourite"
@@ -46,7 +46,7 @@ public class Photo : NSManagedObject {
     }
     
     //Did not find existing, create new.
-    let created = flk_newInContext(context) as Photo
+    let created = flk_newInContext(context) as! Photo
     created.photoID = photoID
     return created
   }

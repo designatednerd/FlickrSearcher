@@ -58,7 +58,7 @@ public class FlickrJSONParser {
         var photos = [Photo]()
         
         for item in unwrappedPhotos {
-          let photoDict = item as NSDictionary
+          let photoDict = item as! NSDictionary
           let photo = parseIndividualPhotoDictionary(photoDict)
           photos.append(photo)
         }
@@ -82,11 +82,11 @@ public class FlickrJSONParser {
     // How to construct a Flickr URL: https://www.flickr.com/services/api/misc.urls.html
     // https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
     
-    let farm = photoDict[FlickrPhotoDataJSONKeys.Farm.rawValue]! as Int
-    let server = photoDict[FlickrPhotoDataJSONKeys.Server.rawValue]! as String
-    let photoID = photoDict[FlickrPhotoDataJSONKeys.ID.rawValue]! as String
-    let secret = photoDict[FlickrPhotoDataJSONKeys.Secret.rawValue]! as String
-    let userID = photoDict[FlickrPhotoDataJSONKeys.Owner.rawValue]! as String
+    let farm = photoDict[FlickrPhotoDataJSONKeys.Farm.rawValue]! as! Int
+    let server = photoDict[FlickrPhotoDataJSONKeys.Server.rawValue]! as! String
+    let photoID = photoDict[FlickrPhotoDataJSONKeys.ID.rawValue]! as! String
+    let secret = photoDict[FlickrPhotoDataJSONKeys.Secret.rawValue]! as! String
+    let userID = photoDict[FlickrPhotoDataJSONKeys.Owner.rawValue]! as! String
     
     let fullURL = "https://farm\(farm).staticflickr.com/\(server)/\(photoID)_\(secret).jpg"
     let thumbURL = "https://farm\(farm).staticflickr.com/\(server)/\(photoID)_\(secret)_\(FlickrPhotoSize.Thumbnail.rawValue).jpg"
@@ -97,7 +97,7 @@ public class FlickrJSONParser {
     photo.fullURLString = fullURL
     photo.thumbnailURLString = thumbURL
     photo.photoID = photoID
-    photo.title = photoDict[FlickrPhotoDataJSONKeys.Title.rawValue]! as String
+    photo.title = photoDict[FlickrPhotoDataJSONKeys.Title.rawValue]! as! String
     
     let user = User.userInContextOrNew(mainContext, userID: userID)
     user.userID = userID
@@ -117,13 +117,13 @@ public class FlickrJSONParser {
       return nil
     }
     
-    let personDict = userDict[FlickrUserDataJSONKeys.Person.rawValue]! as NSDictionary
-    let usernameDict = personDict[FlickrUserDataJSONKeys.Username.rawValue]! as NSDictionary
-    let username = usernameDict[FlickrReturnDataJSONKeys.InnerContent.rawValue]! as String
-    let iconFarm = personDict[FlickrUserDataJSONKeys.IconFarm.rawValue]! as Int
+    let personDict = userDict[FlickrUserDataJSONKeys.Person.rawValue]! as! NSDictionary
+    let usernameDict = personDict[FlickrUserDataJSONKeys.Username.rawValue]! as! NSDictionary
+    let username = usernameDict[FlickrReturnDataJSONKeys.InnerContent.rawValue]! as! String
+    let iconFarm = personDict[FlickrUserDataJSONKeys.IconFarm.rawValue]! as! Int
     let iconServer: AnyObject = personDict[FlickrUserDataJSONKeys.IconServer.rawValue]!
-    let userID = personDict[FlickrUserDataJSONKeys.ID.rawValue]! as String
-    let NSID = personDict[FlickrUserDataJSONKeys.NSID.rawValue]! as String
+    let userID = personDict[FlickrUserDataJSONKeys.ID.rawValue]! as! String
+    let NSID = personDict[FlickrUserDataJSONKeys.NSID.rawValue]! as! String
     
     //http://farm{icon-farm}.staticflickr.com/{icon-server}/buddyicons/{nsid}.jpg
     

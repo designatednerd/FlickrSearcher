@@ -33,7 +33,7 @@ class JSONParserTests : BaseTests {
       expectation.fulfill()
     }
     
-    waitForExpectationsWithTimeout(localTimeout, nil)
+    waitForExpectationsWithTimeout(localTimeout, handler: nil)
   }
   
   //TODO: Add user parsing test

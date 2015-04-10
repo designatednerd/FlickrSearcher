@@ -11,7 +11,7 @@ import UIKit
 extension NSString {
   
   class func flk_pathToDocumentsDirectory() -> String {
-    return NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).last as String
+    return NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).last as! String
   }
   
   /**
@@ -30,9 +30,9 @@ extension NSString {
   }
   
   func flk_createDirectoryIfNeeded() {
-    if !NSFileManager.defaultManager().fileExistsAtPath(self) {
+    if !NSFileManager.defaultManager().fileExistsAtPath(self as String) {
       var error: NSError?
-      NSFileManager.defaultManager().createDirectoryAtPath(self,
+      NSFileManager.defaultManager().createDirectoryAtPath(self as String,
         withIntermediateDirectories: true,
         attributes: nil,
         error: &error)

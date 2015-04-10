@@ -70,7 +70,7 @@ class PhotoDataSource : NSObject, UITableViewDataSource, UITableViewDelegate, NS
   
   func photoForCell(cell: PhotoTableViewCell) -> Photo {
     let indexPath = tableView.indexPathForCell(cell)
-    return resultsController.objectAtIndexPath(indexPath!) as Photo
+    return resultsController.objectAtIndexPath(indexPath!) as! Photo
   }
   
   //MARK: - UITableViewDataSource
@@ -85,12 +85,12 @@ class PhotoDataSource : NSObject, UITableViewDataSource, UITableViewDelegate, NS
   }
   
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(PhotoTableViewCell.cellIdentifier(), forIndexPath: indexPath) as PhotoTableViewCell
+    let cell = tableView.dequeueReusableCellWithIdentifier(PhotoTableViewCell.cellIdentifier(), forIndexPath: indexPath) as! PhotoTableViewCell
     
     //Cancel any previous operations setting to this
     downloader.cancelSetToImageView(cell.photoImageView!)
     
-    let photoAtIndex = resultsController.objectAtIndexPath(indexPath) as Photo
+    let photoAtIndex = resultsController.objectAtIndexPath(indexPath) as! Photo
     
     cell.titleLabel.text = photoAtIndex.title
     

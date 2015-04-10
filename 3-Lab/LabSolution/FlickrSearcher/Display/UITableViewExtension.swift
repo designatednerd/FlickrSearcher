@@ -21,7 +21,7 @@ extension UITableView {
     } else {
       var indexPaths = [NSIndexPath]()
       for cell in cells {
-        let indexPath = self.indexPathForCell(cell as UITableViewCell)
+        let indexPath = self.indexPathForCell(cell as! UITableViewCell)
         if let unwrappedIndexPath = indexPath {
           indexPaths.append(unwrappedIndexPath)
         }
