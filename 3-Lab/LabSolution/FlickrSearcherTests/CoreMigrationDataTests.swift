@@ -38,6 +38,8 @@ class CoreDataMigrationTests : BaseTests {
         if let managedObjectModel = managedObjectModel {
           //Create a persistent store coordinator and persistent store independent of our main stack.
           let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
+            
+          //Ensure that the PSC has automatic migration set up.
           let options = [
             NSMigratePersistentStoresAutomaticallyOption : true,
             NSInferMappingModelAutomaticallyOption : true,
