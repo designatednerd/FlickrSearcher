@@ -26,8 +26,8 @@ class PhotoDataSource : NSObject, UITableViewDataSource, UITableViewDelegate, NS
   /**
   Designated initializer.
   
-  :param: favoritesOnly true If this data source should only show favorites, false if it should show all results.
-  :returns: The initialized instance.
+  - parameter favoritesOnly: true If this data source should only show favorites, false if it should show all results.
+  - returns: The initialized instance.
   */
   required init(favoritesOnly: Bool) {
     if ShouldUseFakeDataInApplication {
@@ -61,7 +61,11 @@ class PhotoDataSource : NSObject, UITableViewDataSource, UITableViewDelegate, NS
   
   func reloadFRC() {
     var error: NSError?
-    resultsController.performFetch(&error)
+    do {
+      try resultsController.performFetch()
+    } catch let error1 as NSError {
+      error = error1
+    }
     
     if let unwrappedError = error {
       NSLog("ERROR: \(unwrappedError)")
@@ -80,7 +84,7 @@ class PhotoDataSource : NSObject, UITableViewDataSource, UITableViewDelegate, NS
   }
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    let objects = (resultsController.sections?[section] as? NSFetchedResultsSectionInfo)?.numberOfObjects
+    let objects = (resultsController.sections![section] as NSFetchedResultsSectionInfo).numberOfObjects
     return objects ?? 0
   }
   
@@ -126,22 +130,33 @@ class PhotoDataSource : NSObject, UITableViewDataSource, UITableViewDelegate, NS
   func controllerWillChangeContent(controller : NSFetchedResultsController) {
     tableView.beginUpdates()
   }
-  
+    
   func controller(controller: NSFetchedResultsController,
-    didChangeObject anObject: AnyObject,
-    atIndexPath indexPath: NSIndexPath?,
-    forChangeType type: NSFetchedResultsChangeType,
-    newIndexPath: NSIndexPath?) {
-      switch type {
+                  didChangeObject anObject: AnyObject,
+                  atIndexPath indexPath: NSIndexPath?,
+                  forChangeType type: NSFetchedResultsChangeType,
+                  newIndexPath: NSIndexPath?) {
+
+    switch type {
       case .Insert:
-        tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+        if let updatedIndexPath = newIndexPath {
+            tableView.insertRowsAtIndexPaths([updatedIndexPath], withRowAnimation: .Fade)
+        }
       case .Delete:
-        tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+        if let originalIndexPath = indexPath {
+          tableView.deleteRowsAtIndexPaths([originalIndexPath], withRowAnimation: .Fade)
+        }
       case .Update:
-        tableView.reloadRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+        if let originalIndexPath = indexPath {
+          tableView.reloadRowsAtIndexPaths([originalIndexPath], withRowAnimation: .Fade)
+        }
       case .Move:
-        tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
-        tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+        if let
+          originalIndexPath = indexPath,
+          updatedIndexPath = newIndexPath {
+            tableView.deleteRowsAtIndexPaths([originalIndexPath], withRowAnimation: .Fade)
+            tableView.insertRowsAtIndexPaths([updatedIndexPath], withRowAnimation: .Fade)
+          }
       }
   }
   

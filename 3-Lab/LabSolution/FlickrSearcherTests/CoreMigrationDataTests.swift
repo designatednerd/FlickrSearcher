@@ -45,13 +45,14 @@ class CoreDataMigrationTests : BaseTests {
             NSInferMappingModelAutomaticallyOption : true,
           ]
           
-          var error: NSError?
-          let persistentStore = persistentStoreCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil,
-            URL:storeURL,
-            options:options,
-            error:&error)
-          
-          XCTAssertNotNil(persistentStore, "Cannot load persistentStore: \(error)");
+          do {
+            let _ = try persistentStoreCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil,
+                        URL:storeURL,
+                        options:options)
+            XCTAssertNotNil(persistentStoreCoordinator.persistentStores)
+          } catch let error {
+            XCTFail("Cannot load persistentStore: \(error)");
+          }
         } else {
           XCTFail("Could not load model!");
         }

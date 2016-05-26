@@ -26,17 +26,21 @@ public class Photo : NSManagedObject {
   /**
   Grabs a photo from the given context with the given ID, or creates a new one.
   
-  :param: context The managed object context to search
-  :param: photoID The ID to search for
+  - parameter context: The managed object context to search
+  - parameter photoID: The ID to search for
   
-  :returns: The existing or new photo with the given ID
+  - returns: The existing or new photo with the given ID
   */
   class func photoInContextOrNew(context: NSManagedObjectContext, photoID: String) -> Photo {
     let predicate = NSPredicate(format: "photoID == \(photoID)")
     let fetchRequest = flk_fetchRequestWithPredicate(predicate)
     
-    var error: NSError?
-    let results = context.executeFetchRequest(fetchRequest, error: &error)
+    let results: [AnyObject]?
+    do {
+      results = try context.executeFetchRequest(fetchRequest)
+    } catch {
+      results = nil
+    }
     
     if let unwrappedResults = results {
       if let photo = unwrappedResults.first as? Photo {

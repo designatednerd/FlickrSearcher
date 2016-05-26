@@ -13,7 +13,7 @@ public class User : NSManagedObject {
   //MARK: Managed Object Properties
   
   @NSManaged public var userID: String
-  public var name: String?
+  @NSManaged public var name: String?
   public var iconURLString: String?
   
   //MARK: Helper method
@@ -21,18 +21,22 @@ public class User : NSManagedObject {
   /**
   Grabs a user from the given context with the given ID, or creates a new one.
   
-  :param: context The managed object context to search
-  :param: userID The ID to search for
+  - parameter context: The managed object context to search
+  - parameter userID: The ID to search for
   
-  :returns: The existing or new user with the given ID
+  - returns: The existing or new user with the given ID
   */
   
   class func userInContextOrNew(context: NSManagedObjectContext, userID: String) -> User {
     let predicate = NSPredicate(format: "userID ==[c] '\(userID)'")
     let fetchRequest = flk_fetchRequestWithPredicate(predicate)
     
-    var error: NSError?
-    let results = context.executeFetchRequest(fetchRequest, error: &error)
+    let results: [AnyObject]?
+    do {
+      results = try context.executeFetchRequest(fetchRequest)
+    } catch {
+      results = nil
+    }
     
     if let unwrappedResults = results {
       if let user = unwrappedResults.first as? User {

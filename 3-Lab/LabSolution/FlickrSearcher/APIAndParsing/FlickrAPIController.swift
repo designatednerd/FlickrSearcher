@@ -18,8 +18,8 @@ public class FlickrAPIController: NSObject {
   /**
   The completion block for callers of public methods in this class.
   
-  :param: success - true if the operation was successful, false if not.
-  :param: result - The result dictionary from the API request, or null if the request failed.
+  - parameter success: - true if the operation was successful, false if not.
+  - parameter result: - The result dictionary from the API request, or null if the request failed.
   */
   public typealias FlickrAPICompletion = (success: Bool, result: NSDictionary?) -> ()
   
@@ -27,25 +27,25 @@ public class FlickrAPIController: NSObject {
   /**
   The completion block for callers of private methods within this class. 
   
-  :param: responseDict  The serialized JSON dictionary returned by the Flickr API, if one exists.
-  :param: error         Any error associated with calling the API.
+  - parameter responseDict:  The serialized JSON dictionary returned by the Flickr API, if one exists.
+  - parameter error:         Any error associated with calling the API.
   */
   typealias InternalAPICompletion = (responseDict: NSDictionary?, error: NSError?) -> ()
 
   /**
   The main internal method for calling the Flickr API.
   
-  :param: httpMethod  The HTTPMethod to use.
-  :param: params      Non-standard parameters as a dictionary of keys and values. Will always at least include the Method.
-  :param: completion  A closure to run upon completion, matching the signature of the completion block for an NSURLSessionDataTask.
+  - parameter httpMethod:  The HTTPMethod to use.
+  - parameter params:      Non-standard parameters as a dictionary of keys and values. Will always at least include the Method.
+  - parameter completion:  A closure to run upon completion, matching the signature of the completion block for an NSURLSessionDataTask.
   */
   func makeAPIRequest(httpMethod: HTTPMethod,
     params: [String: String],
     completion: InternalAPICompletion) {
       
       var queryItems = [NSURLQueryItem]()
-      let allKeys = params.keys.array
-      let allValues = params.values.array
+      let allKeys = Array(params.keys)
+      let allValues = Array(params.values)
       for i in 0 ..< allKeys.count {
         let queryItem = NSURLQueryItem(name: allKeys[i], value: allValues[i])
         queryItems.append(queryItem)
@@ -58,16 +58,28 @@ public class FlickrAPIController: NSObject {
         request.HTTPMethod = httpMethod.rawValue
         NSURLSession.sharedSession()
           .dataTaskWithRequest(request, completionHandler: {
-            (data: NSData!, response: NSURLResponse!, error: NSError!) -> Void in
+            (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
             if let unwrappedError = error {
               //Error has occurred, fire completion.
               NSLog("Error with API request: \(unwrappedError)")
               completion(responseDict: nil, error: unwrappedError)
             } else {
               //Parse the data into a dictionary.
-              var jsonError: NSError?
-              let dict = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &jsonError) as! NSDictionary
-              completion(responseDict:dict, error: nil)
+              do {
+                if let
+                    unwrappedData = data,
+                    dict = try NSJSONSerialization.JSONObjectWithData(unwrappedData,
+                        options: NSJSONReadingOptions.MutableContainers) as? NSDictionary {
+                    completion(responseDict:dict, error: nil)
+                } else {
+                    let parsingError = NSError(domain: "oops", code: 666, userInfo: nil)
+                    completion(responseDict:nil, error: parsingError)
+                }
+              } catch {
+                let parsingError = NSError(domain: "oops", code: 667, userInfo: nil)
+                completion(responseDict:nil, error: parsingError)
+              }
+              
             }
           }).resume() //Don't forget to call Resume.
       } else {
@@ -78,13 +90,13 @@ public class FlickrAPIController: NSObject {
   /**
   Pings Flickr's Echo API endpoint, which helps ensure that you are properly creating and receiving results of requests.
   
-  :param: completion The completion block to execute when the call returns.
+  - parameter completion: The completion block to execute when the call returns.
   */
   public func pingEchoEndpointWithCompletion(completion:FlickrAPICompletion) {
     let paramsDict = [ FlickrParameterName.Method.rawValue : FlickrMethod.Echo.rawValue ]
     makeAPIRequest(HTTPMethod.GET, params: paramsDict) {
       (responseDict, error) -> Void in
-      if let returnedError = error {
+      if error != nil {
         self.fireCompletionOnMainQueueWithSuccess(false, result: nil, completion: completion)
       } else {
         self.fireCompletionOnMainQueueWithSuccess(true, result: responseDict, completion: completion)
@@ -95,9 +107,9 @@ public class FlickrAPIController: NSObject {
   /**
   Fires the passed-in completion block on the main thread with the given data.
   
-  :param: success    The success value to pass to the completion block.
-  :param: result     The result value to pass to the completion block.
-  :param: completion The completion block to fire.
+  - parameter success:    The success value to pass to the completion block.
+  - parameter result:     The result value to pass to the completion block.
+  - parameter completion: The completion block to fire.
   */
   private func fireCompletionOnMainQueueWithSuccess(success: Bool, result: NSDictionary?, completion:FlickrAPICompletion) {
     if (NSThread.currentThread() == NSThread.mainThread()) {
@@ -114,8 +126,8 @@ public class FlickrAPIController: NSObject {
   /**
   Requests and retrieves a JSON dictionary of photos with the given tag.
   
-  :param: tag        The tag to search for on Flickr.
-  :param: completion The completion block to execute when the call returns.
+  - parameter tag:        The tag to search for on Flickr.
+  - parameter completion: The completion block to execute when the call returns.
   */
   public func fetchPhotosForTag(tag: String, completion:FlickrAPICompletion) {
     let paramsDict = [
@@ -125,7 +137,7 @@ public class FlickrAPIController: NSObject {
     
     makeAPIRequest(HTTPMethod.GET, params: paramsDict) {
       (responseDict, error) -> Void in
-      if let returnedError = error {
+      if error != nil {
         self.fireCompletionOnMainQueueWithSuccess(false, result: nil, completion: completion)
       } else {
         self.fireCompletionOnMainQueueWithSuccess(true, result: responseDict, completion: completion)
@@ -147,8 +159,8 @@ public class MockAPIController : FlickrAPIController {
   /**
   Loads up local JSON files and fires a completion block of the same format as real API calls.
   
-  :param: fileName   The name, without the extension, of the JSON file to load.
-  :param: completion The completion block to execute.
+  - parameter fileName:   The name, without the extension, of the JSON file to load.
+  - parameter completion: The completion block to execute.
   */
   func JSONFromFileNamed(fileName: String, completion:FlickrAPICompletion) {
     //Pulling out the bundle like this allows you to use this kind of mocked API controller either here in the main package, or when you know you're going to have more reliable WiFi, only within the test package.
@@ -158,14 +170,17 @@ public class MockAPIController : FlickrAPIController {
     if let unwrappedPath = path {
       let dataFromPath = NSData(contentsOfFile: unwrappedPath)
       if let unwrappedData = dataFromPath {
-        var error: NSError?
-        let jsonDict = NSJSONSerialization.JSONObjectWithData(unwrappedData, options: NSJSONReadingOptions.MutableContainers, error: &error) as? NSDictionary
-        if let unwrappedJSON = jsonDict {
-          completion(success: true, result: unwrappedJSON)
-          
+        do {
+          let jsonDict = try NSJSONSerialization.JSONObjectWithData(unwrappedData,
+                                options: NSJSONReadingOptions.MutableContainers) as? NSDictionary
+           
           //You've fired the completion block - everything else is irrelevant.
+          completion(success: true, result: jsonDict)
+
           return
-        } //Else JSON didn't unwrap
+        } catch let error {
+            NSLog("JSON error: \(error)")
+        }
       } //Else NSData didn't unwrap
     } //Else path didn't unwrap
     

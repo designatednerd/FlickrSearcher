@@ -22,7 +22,7 @@ public class FlickrPhotoDownloader {
   }
   
   /**
-  :returns: Singleton instance.
+  - returns: Singleton instance.
   */
   public class func sharedInstance() -> FlickrPhotoDownloader {
     return _singletonInstance
@@ -35,7 +35,11 @@ public class FlickrPhotoDownloader {
     let path = FlickrDownloadOperation.pathToPhotoDownloadDirectory()
     var error: NSError?
     
-    NSFileManager.defaultManager().removeItemAtPath(path, error: &error)
+    do {
+      try NSFileManager.defaultManager().removeItemAtPath(path)
+    } catch let error1 as NSError {
+      error = error1
+    }
     
     assert(error == nil)
   }
@@ -43,8 +47,8 @@ public class FlickrPhotoDownloader {
   /**
   Just download the image with a completion block.
   
-  :param: urlString  The URL String to cache the image for.
-  :param: completion The completion block to fire when done.
+  - parameter urlString:  The URL String to cache the image for.
+  - parameter completion: The completion block to fire when done.
   */
   public func downloadImageFromURLString(urlString: String, completion: () -> ()) {
     let download = FlickrDownloadOperation(urlString: urlString, completion: completion)
@@ -54,8 +58,8 @@ public class FlickrPhotoDownloader {
   /**
   Sets an image downloaded from a given URL to a given imageView.
   
-  :param: urlString - The URL of the image as a string.
-  :param: imageView - The imageView to set the image on.
+  - parameter urlString: - The URL of the image as a string.
+  - parameter imageView: - The imageView to set the image on.
   */
   func setImageFromURLString(urlString: String, toImageView imageView: UIImageView) {
     //See if a cached image exists
@@ -74,7 +78,7 @@ public class FlickrPhotoDownloader {
   /**
   Cancels setting the image to the image view in any operation - will allow the download to complete.
   
-  :param: imageView - The image view to cancel setting images on.
+  - parameter imageView: - The image view to cancel setting images on.
   */
   func cancelSetToImageView(imageView: UIImageView) {
     let imageViewOperations = downloadQueue.operations as! [FlickrDownloadOperation]
@@ -97,14 +101,14 @@ public class MockPhotoDownloader : FlickrPhotoDownloader {
   }
   
   /**
-  :param: urlString The full URL string for the given photo.
-  :returns: The path within the main bundle for the mock resource. 
+  - parameter urlString: The full URL string for the given photo.
+  - returns: The path within the main bundle for the mock resource. 
   */
   public class func mockImageDataPathForURLString(urlString: String) -> String? {
     let fullDownloadPath = FlickrDownloadOperation.downloadDirectoryPathForURLString(urlString)
-    let lastPath = fullDownloadPath.lastPathComponent
-    let lastPathExtension = lastPath.pathExtension
-    let lastPathSansExtension = lastPath.stringByDeletingPathExtension
+    let lastPath = (fullDownloadPath as NSString).lastPathComponent
+    let lastPathExtension = (lastPath as NSString).pathExtension
+    let lastPathSansExtension = (lastPath as NSString).stringByDeletingPathExtension
     
     let localPath = NSBundle.mainBundle().pathForResource(lastPathSansExtension, ofType: lastPathExtension)
     return localPath
@@ -122,9 +126,12 @@ public class MockPhotoDownloader : FlickrPhotoDownloader {
       if let unwrappedLocalPath = MockPhotoDownloader.mockImageDataPathForURLString(urlString) {
         let targetPath = FlickrDownloadOperation.downloadDirectoryPathForURLString(urlString)
         var error: NSError?
-        NSFileManager.defaultManager().copyItemAtURL(NSURL(fileURLWithPath: unwrappedLocalPath)!,
-          toURL: NSURL(fileURLWithPath: targetPath)!,
-          error: &error)
+        do {
+          try NSFileManager.defaultManager().copyItemAtURL(NSURL(fileURLWithPath: unwrappedLocalPath),
+            toURL: NSURL(fileURLWithPath: targetPath))
+        } catch let error1 as NSError {
+          error = error1
+        }
         
         if let unwrappedError = error {
           NSLog("Error moving file to target path: \(unwrappedError)")
@@ -162,7 +169,7 @@ private class FlickrDownloadOperation : NSOperation {
       let downloadURL = NSURL(string: self.urlString)!
       let filePath = FlickrDownloadOperation.downloadDirectoryPathForURLString(self.urlString)
       
-      var imageData = NSData(contentsOfURL: downloadURL)
+      let imageData = NSData(contentsOfURL: downloadURL)
       
       if let unwrappedData = imageData {
         let image = UIImage(data: unwrappedData)
@@ -213,7 +220,7 @@ private class FlickrDownloadOperation : NSOperation {
   }
   
   class func pathWithUnderscores(originalPath: NSString) -> String {
-    let withoutFirstSlash = originalPath.substringFromIndex(1)
+    _ = originalPath.substringFromIndex(1)
     return originalPath.stringByReplacingOccurrencesOfString("/", withString: "_")
   }
   

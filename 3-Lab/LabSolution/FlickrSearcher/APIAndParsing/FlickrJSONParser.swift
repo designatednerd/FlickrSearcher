@@ -18,9 +18,9 @@ public class FlickrJSONParser {
   /**
   Will look at any dictionary received for a "stat" : "ok" key/value pair, which should be returned after any successful request to the Flickr API
   
-  :param: responseDict The dictionary received from the API.
+  - parameter responseDict: The dictionary received from the API.
   
-  :returns: true if the required Key/Value pair is there, false if it is not.
+  - returns: true if the required Key/Value pair is there, false if it is not.
   */
   public class func isResponseOK(responseDict: NSDictionary) -> Bool {
     if let status = responseDict[FlickrReturnDataJSONKeys.Status.rawValue] as? String {
@@ -40,9 +40,9 @@ public class FlickrJSONParser {
   Note: The caller is responsible for saving the main managed object context once the array
   of photos has been created.
   
-  :param: photoListDict An NSDictionary received from the server of photos.
+  - parameter photoListDict: An NSDictionary received from the server of photos.
   
-  :returns: An array of Photo objects corresponding with the received list of photos (inserted into the main context but not yet saved), or nil if parsing fails.
+  - returns: An array of Photo objects corresponding with the received list of photos (inserted into the main context but not yet saved), or nil if parsing fails.
   */
   public class func parsePhotoListDictionary(photoListDict: NSDictionary) -> [Photo]? {
     //Make sure the dict is OK to go
@@ -74,9 +74,9 @@ public class FlickrJSONParser {
   /**
   Parses an individual photo dictionary to return a Photo
   
-  :param: photoDict The dictionary to parse
+  - parameter photoDict: The dictionary to parse
   
-  :returns: The instantiated and populated photo, inserted into the main context but not yet saved.
+  - returns: The instantiated and populated photo, inserted into the main context but not yet saved.
   */
   class func parseIndividualPhotoDictionary(photoDict: NSDictionary) -> Photo {
     // How to construct a Flickr URL: https://www.flickr.com/services/api/misc.urls.html
@@ -109,8 +109,8 @@ public class FlickrJSONParser {
   /**
   Parses a given dictionary into a User object.
   
-  :param: userDict The dictionary to parse.
-  :returns: The instantiated and populated user, inserted into the main context but not yet saved.
+  - parameter userDict: The dictionary to parse.
+  - returns: The instantiated and populated user, inserted into the main context but not yet saved.
   */
   public class func parseUserDictionary(userDict: NSDictionary) -> User? {
     if !isResponseOK(userDict) {

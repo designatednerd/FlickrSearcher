@@ -64,15 +64,18 @@ public class CoreDataStack {
       
       NSLog("Persistent store file path: \(url?.path)")
       
-      _persistentStoreCoordinator!.addPersistentStoreWithType(storeType,
+      do {
+        try _persistentStoreCoordinator!.addPersistentStoreWithType(storeType,
         configuration: nil,
         URL: url,
         //Set these two options in order to have automatic migration work for Core Data:
         options: [
           NSMigratePersistentStoresAutomaticallyOption: true,
           NSInferMappingModelAutomaticallyOption: true,
-        ],
-        error: nil)
+        ])
+      } catch {
+        fatalError("Could not add persistent store!")
+      }
     }
     
     return _persistentStoreCoordinator!
@@ -94,7 +97,11 @@ public class CoreDataStack {
   */
   public func saveMainContext() {
     var error : NSError?
-    mainContext().save(&error)
+    do {
+      try mainContext().save()
+    } catch let error1 as NSError {
+      error = error1
+    }
     
     if let error = error {
       assert(false, "ERROR SAVING CONTEXT: \(error)")
@@ -102,10 +109,10 @@ public class CoreDataStack {
   }
   
   /**
-  :returns: The full file url for the database
+  - returns: The full file url for the database
   */
   func databaseFileURL() -> NSURL {
-    let documentsDirectory = NSFileManager.defaultManager().URLsForDirectory(NSSearchPathDirectory.DocumentDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask).last! as! NSURL
+    let documentsDirectory = NSFileManager.defaultManager().URLsForDirectory(NSSearchPathDirectory.DocumentDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask).last! 
     
     let file = documentsDirectory.URLByAppendingPathComponent("FlickrSearcher.sqlite")
     return file
@@ -123,7 +130,11 @@ public class CoreDataStack {
       let storePath = databaseFileURL().path!
       if NSFileManager.defaultManager().fileExistsAtPath(storePath) {
         var error: NSError?
-        NSFileManager.defaultManager().removeItemAtPath(storePath, error: &error)
+        do {
+          try NSFileManager.defaultManager().removeItemAtPath(storePath)
+        } catch let error1 as NSError {
+          error = error1
+        }
         if let error = error {
           NSLog("Error deleting file: \(error)")
         }

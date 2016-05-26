@@ -13,8 +13,8 @@ public extension NSManagedObject {
   /**
   Creates a new instance of a managed object in the given context.
   
-  :param: context The NSManagedObject in which to add the object
-  :returns: The instantiated object, inserted into the MOC, or nil if any of the failable initializers...fails.
+  - parameter context: The NSManagedObject in which to add the object
+  - returns: The instantiated object, inserted into the MOC, or nil if any of the failable initializers...fails.
   */
   class func flk_newInContext(context: NSManagedObjectContext) -> NSManagedObject? {
     let entityDescription = NSEntityDescription.entityForName(flk_className(), inManagedObjectContext: context)

@@ -38,9 +38,15 @@ class FavingTests : BaseTests {
   func testFavoritingTheFirstItemRetrievedFromCoreDataWorks() {
     let allPhotosFetchRequest = Photo.flk_fetchRequestWithPredicate(nil)
     var error: NSError?
-    let allPhotos = CoreDataStack.sharedInstance()
-                                 .mainContext()
-                                 .executeFetchRequest(allPhotosFetchRequest, error: &error)
+    let allPhotos: [AnyObject]?
+    do {
+      allPhotos = try CoreDataStack.sharedInstance()
+                                       .mainContext()
+                                       .executeFetchRequest(allPhotosFetchRequest)
+    } catch var error1 as NSError {
+      error = error1
+      allPhotos = nil
+    }
     
     if let unwrappedError = error {
       XCTFail("Error fetching all photos: \(unwrappedError)")
@@ -52,9 +58,15 @@ class FavingTests : BaseTests {
         
         //Update the fetch request to add a predicate
         allPhotosFetchRequest.predicate = NSPredicate(format: "%K == YES", "isFavorite")
-        let faves = CoreDataStack.sharedInstance()
-                                 .mainContext()
-                                 .executeFetchRequest(allPhotosFetchRequest, error: &error)
+        let faves: [AnyObject]?
+        do {
+          faves = try CoreDataStack.sharedInstance()
+                                           .mainContext()
+                                           .executeFetchRequest(allPhotosFetchRequest)
+        } catch var error1 as NSError {
+          error = error1
+          faves = nil
+        }
         if let unwrappedFaveError = error {
           XCTFail("Error fetching favorite photos:\(unwrappedFaveError)")
         } else {

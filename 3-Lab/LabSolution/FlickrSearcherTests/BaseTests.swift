@@ -34,8 +34,8 @@ class BaseTests : XCTestCase {
   /**
   Verifies that a given string becomes a valid URL.
   
-  :param: urlString The string to check  
-  :returns: true if the string can become a URL, false if not.
+  - parameter urlString: The string to check  
+  - returns: true if the string can become a URL, false if not.
   */
   func urlStringBecomesValidURL(urlString: String) -> Bool {
     let url = NSURL(string: urlString)

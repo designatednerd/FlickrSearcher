@@ -19,14 +19,13 @@ class FlickrAPIComponents {
   /**
   Constructor of Flickr API calls.
   
-  :param: params Any parameters to add as an array of NSURLQueryItems, or nil if there are no other parameters to add
-  :returns: The constructed URL, or nil if an error occurred.
+  - parameter params: Any parameters to add as an array of NSURLQueryItems, or nil if there are no other parameters to add
+  - returns: The constructed URL, or nil if an error occurred.
   */
-  func urlWithParams(var params: [NSURLQueryItem]?) -> NSURL? {
+  func urlWithParams(params: [NSURLQueryItem]?) -> NSURL? {
     if let components = urlComponents {
       //Setup the path
       components.path = BasePath
-      
       
       //Setup the stock query items
       let apiKeyQueryItem = NSURLQueryItem(name: FlickrParameterName.APIKey.rawValue, value: FlickrAuthCredential.APIKey.rawValue)
