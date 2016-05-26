@@ -323,6 +323,7 @@
 /* Begin PBXFileReference section */
 		9B00763E1A2C35F60065CCFB /* test_cats.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_cats.json; sourceTree = "<group>"; };
 		9B0326201A2BDBB40077F4BA /* JSONParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONParserTests.swift; sourceTree = "<group>"; };
+		9B0BD98D1B0F94DF0013CC6A /* FlickrSearcher 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FlickrSearcher 2.xcdatamodel"; sourceTree = "<group>"; };
 		9B1A17A61A2BB2650082BC42 /* CoreMigrationDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreMigrationDataTests.swift; sourceTree = "<group>"; };
 		9B3DEC811A34D9F700D3A2F4 /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		9B40BC2B1A2D56B600EE7D96 /* PhotoDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDataSource.swift; sourceTree = "<group>"; };
@@ -1107,7 +1108,9 @@
 		9B9227741A16CD5D00B2C5FC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastSwiftMigration = 0730;
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Designated Nerd Software";
 				TargetAttributes = {
 					9B92277B1A16CD5D00B2C5FC = {
@@ -1514,6 +1517,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1579,6 +1583,7 @@
 				INFOPLIST_FILE = FlickrSearcher/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.designatednerd.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1592,6 +1597,7 @@
 				INFOPLIST_FILE = FlickrSearcher/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.designatednerd.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -1610,6 +1616,7 @@
 				);
 				INFOPLIST_FILE = FlickrSearcherTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.designatednerd.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FlickrSearcher.app/FlickrSearcher";
 			};
@@ -1625,6 +1632,7 @@
 				);
 				INFOPLIST_FILE = FlickrSearcherTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.designatednerd.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FlickrSearcher.app/FlickrSearcher";
 			};
@@ -1666,9 +1674,10 @@
 		9B52D3A71A2C2BFC00C22CC0 /* FlickrSearcher.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				9B0BD98D1B0F94DF0013CC6A /* FlickrSearcher 2.xcdatamodel */,
 				9B52D3A81A2C2BFC00C22CC0 /* FlickrSearcher.xcdatamodel */,
 			);
-			currentVersion = 9B52D3A81A2C2BFC00C22CC0 /* FlickrSearcher.xcdatamodel */;
+			currentVersion = 9B0BD98D1B0F94DF0013CC6A /* FlickrSearcher 2.xcdatamodel */;
 			path = FlickrSearcher.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
